@@ -1,0 +1,12 @@
+# Ignore editor and IDE files
+.vscode/
+.vs
+
+# Ignore compiled binaries and executables
+*.exe
+*.dll
+*.so
+*.o
+*.obj
+
+CS410_Enhancement_InvestmentAccounts/bin
