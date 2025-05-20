@@ -23,9 +23,11 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height=".2*"/>
             </Grid.RowDefinitions>
-
-            <TextBlock Text="Investment Accounts" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
-
+            <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
+                <TextBlock Text="Investment Accounts"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
+                <TextBlock Text="Add accounts" Style="{StaticResource txtblock}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </StackPanel>
+            
             <!-- New Controls in Column 1, Row 1 -->
             <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10">
 

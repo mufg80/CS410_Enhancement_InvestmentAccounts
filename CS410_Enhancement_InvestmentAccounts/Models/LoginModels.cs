@@ -6,12 +6,12 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CS410_Enhancement_InvestmentAccounts.Models
 {
     public class LoginModels
     {
-
         private string nametext;
         public string NameText
         {
@@ -47,11 +47,16 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
 
         public bool ValidateLogin()
         {
+            if (string.IsNullOrEmpty(nametext) || string.IsNullOrEmpty(passtext))
+            {
+                return false;
+            }
+
             FileSaver fileSaver = new FileSaver();
             var (accounts, users) = fileSaver.ReadFromDisk();
             if (users.Count == 0)
             {
-                UserModel model = new UserModel(NameText, HashString(passtext));
+                UserModel model = new UserModel(NameText, FileSaver.HashString(passtext), true);
                 List<UserModel> models = new List<UserModel>();
                 models.Add(model);
                 fileSaver.WriteToDisk(models, new List<AccountModel>());
@@ -59,7 +64,7 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
             }
             foreach (var item in users)
             {
-                string hash = HashString(PassText);
+                string hash = FileSaver.HashString(PassText);
                 if (item.UserName == nametext && item.UserHash == hash)
                 {
                     return true;
@@ -69,37 +74,6 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
         }
 
 
-        public string HashString(string input, bool useBase64 = false)
-        {
-            if (string.IsNullOrEmpty(input))
-                throw new ArgumentNullException(nameof(input));
-
-            // Convert string to bytes
-            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-
-            // Create SHA-256 instance
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                // Compute hash
-                byte[] hashBytes = sha256.ComputeHash(inputBytes);
-
-                // Convert to string (hex or base64)
-                if (useBase64)
-                {
-                    return Convert.ToBase64String(hashBytes);
-                }
-                else
-                {
-                    // Hexadecimal format
-                    StringBuilder sb = new StringBuilder();
-                    foreach (byte b in hashBytes)
-                    {
-                        sb.Append(b.ToString("x2")); // Lowercase hex
-                    }
-                    return sb.ToString();
-                }
-            }
-        }
 
     }
 

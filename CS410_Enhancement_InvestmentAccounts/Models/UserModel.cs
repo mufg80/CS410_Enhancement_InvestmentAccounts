@@ -10,11 +10,13 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
     {
         public string UserName { get; set; }
         public string UserHash { get; set; }
+        public bool IsAdmin { get; set; }
 
-        public UserModel(string name, string hash)
+        public UserModel(string name, string hash, bool admin)
         {
             UserName = name;
             UserHash = hash;
+            IsAdmin = admin;
         }
     }
 }

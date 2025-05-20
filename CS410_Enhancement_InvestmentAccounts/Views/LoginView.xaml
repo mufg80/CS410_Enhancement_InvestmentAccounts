@@ -21,7 +21,10 @@
             <RowDefinition Height=".2*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Investment Accounts" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
+        <StackPanel Grid.Row="0" Grid.Column="1" >
+            <TextBlock Text="Investment Accounts"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
+            <TextBlock Text="Welcome to the Investment app" Style="{StaticResource txtblock}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock Text="Login" HorizontalAlignment="Center" Margin="15" Style="{StaticResource txtblock}"/>
             <Grid  >

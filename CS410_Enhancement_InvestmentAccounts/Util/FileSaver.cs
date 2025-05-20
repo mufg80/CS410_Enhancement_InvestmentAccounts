@@ -127,13 +127,13 @@ namespace CS410_Enhancement_InvestmentAccounts.Util
                 string[] itemArray = item.Split('|');
                 if (itemArray[0].Equals("1"))
                 {
-                    if (itemArray.Length == 3)
+                    if (itemArray.Length == 4)
                     {
-                        if(itemArray[1].Trim() == string.Empty || itemArray[2].Trim() == string.Empty)
+                        if(itemArray[1].Trim() == string.Empty || itemArray[2].Trim() == string.Empty || itemArray[3].Trim() == string.Empty)
                         {
                             continue;
                         }
-                        UserModel model = new UserModel(itemArray[1], itemArray[2].Trim());
+                        UserModel model = new UserModel(itemArray[1], itemArray[2].Trim(), bool.Parse(itemArray[3].Trim()));
                         result.Add(model);
                     }
                 }
@@ -184,13 +184,42 @@ namespace CS410_Enhancement_InvestmentAccounts.Util
             string result = string.Empty;
             foreach (var item in users)
             {
-                result = string.Empty;
-                result += $"1|{item.UserName}|{item.UserHash}" + Environment.NewLine;
-
+                result += $"1|{item.UserName}|{item.UserHash}|{item.IsAdmin}" + Environment.NewLine;
             }
             return result;
         }
 
+        public static string HashString(string input, bool useBase64 = false)
+        {
+            if (string.IsNullOrEmpty(input))
+                throw new ArgumentNullException(nameof(input));
+
+            // Convert string to bytes
+            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+
+            // Create SHA-256 instance
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                // Compute hash
+                byte[] hashBytes = sha256.ComputeHash(inputBytes);
+
+                // Convert to string (hex or base64)
+                if (useBase64)
+                {
+                    return Convert.ToBase64String(hashBytes);
+                }
+                else
+                {
+                    // Hexadecimal format
+                    StringBuilder sb = new StringBuilder();
+                    foreach (byte b in hashBytes)
+                    {
+                        sb.Append(b.ToString("x2")); // Lowercase hex
+                    }
+                    return sb.ToString();
+                }
+            }
+        }
 
     }
 }

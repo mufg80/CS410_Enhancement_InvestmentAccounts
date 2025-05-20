@@ -6,6 +6,10 @@
              xmlns:local="clr-namespace:CS410_Enhancement_InvestmentAccounts.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.InputBindings>
+        <KeyBinding Gesture="Enter" Command="{Binding SubmitCommand}"/>
+    </UserControl.InputBindings>
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -20,8 +24,11 @@
                 <RowDefinition Height=".2*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Investment Accounts" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
-
+            <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
+                <TextBlock Text="Investment Accounts"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
+                <TextBlock Text="Add users" Style="{StaticResource txtblock}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </StackPanel>
+            
             <!-- New Controls in Column 1, Row 1 -->
             <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10">
 

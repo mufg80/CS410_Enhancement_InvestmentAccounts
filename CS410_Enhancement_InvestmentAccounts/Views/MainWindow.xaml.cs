@@ -1,4 +1,5 @@
-﻿using CS410_Enhancement_InvestmentAccounts.Util;
+﻿using CS410_Enhancement_InvestmentAccounts.Models;
+using CS410_Enhancement_InvestmentAccounts.Util;
 using CS410_Enhancement_InvestmentAccounts.Views;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -49,6 +50,7 @@ namespace CS410_Enhancement_InvestmentAccounts
             {
                 myGrid.Children.Clear();
                 myGrid.Children.Add(userView);
+                userView.ViewModel.Model.UpdateView();
             }
                
         }
@@ -57,12 +59,16 @@ namespace CS410_Enhancement_InvestmentAccounts
         {
             if (e)
             {
+                userView.ViewModel.Model.UpdateView();
                 myGrid.Children.Clear();
                 myGrid.Children.Add(accountsView);
 
                 FileSaver fileSaver = new FileSaver();
                 var s = fileSaver.ReadFromDisk();
-                if(s.Item2.FirstOrDefault().UserName == loginView.viewModel.Model.NameText)
+                var adminAccount = s.Item2.Where(x => x.IsAdmin).FirstOrDefault();
+                
+
+                if(adminAccount != null && adminAccount.UserName == loginView.viewModel.Model.NameText)
                 {
                     accountsView.viewModel.IsAdmin = true;
                 }else

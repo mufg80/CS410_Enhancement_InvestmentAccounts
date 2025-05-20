@@ -1,4 +1,5 @@
 ﻿using CS410_Enhancement_InvestmentAccounts.Models;
+using CS410_Enhancement_InvestmentAccounts.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,12 +16,13 @@ namespace CS410_Enhancement_InvestmentAccounts.ViewModels
         public UsersModel Model { get; set; }
         public ICommand ReturnCommand { get; set; }
         public ICommand SubmitCommand { get; set; }
+        public ICommand DeleteCommand { get; set; }
         public event EventHandler<bool> ReturnPage;
 
         public UsersViewModel()
         {
             Model = new UsersModel();
-
+            
             
             ReturnCommand = new Commands.ButtonCommand(() =>
             { 
@@ -29,11 +31,20 @@ namespace CS410_Enhancement_InvestmentAccounts.ViewModels
 
             SubmitCommand = new Commands.ButtonCommand(() =>
             {
-              
+                Model.Models.Add(new UserModel(Model.Name, FileSaver.HashString(Model.Pass), false));
+                Model.Name = "";
+                Model.Pass = "";
+                Model.Pass2 = "";
+            });
+
+            DeleteCommand = new Commands.ButtonCommand(() =>
+            {
+                if (Model.SelectedItem != null)
+                {
+                    Model.Models.Remove(Model.SelectedItem);
+                }
             });
         }
-
-
 
     }
 }

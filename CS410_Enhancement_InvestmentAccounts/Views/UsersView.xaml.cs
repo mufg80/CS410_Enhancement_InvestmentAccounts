@@ -28,6 +28,7 @@ namespace CS410_Enhancement_InvestmentAccounts.Views
             ViewModel = new UsersViewModel();
             this.DataContext = ViewModel;
             mydatagrid2.ItemsSource = ViewModel.Model.Models;
+            
         }
     }
 }

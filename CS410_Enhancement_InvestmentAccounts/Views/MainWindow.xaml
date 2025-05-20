@@ -5,10 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CS410_Enhancement_InvestmentAccounts"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="900">
+        Title="MainWindow" Height="650" Width="950">
+    <Window.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="LightBlue" Offset="0.4"/>
+            <GradientStop Color="White" Offset="0.9"/>
+        </LinearGradientBrush>
+    </Window.Background>
     <Grid x:Name="myGrid">
-
-
     </Grid>
 
 </Window>
