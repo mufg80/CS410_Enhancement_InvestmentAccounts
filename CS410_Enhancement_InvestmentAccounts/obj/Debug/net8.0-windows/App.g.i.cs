@@ -59,7 +59,7 @@ namespace CS410_Enhancement_InvestmentAccounts {
             
             #line default
             #line hidden
-            System.Uri resourceLocater = new System.Uri("/CS410_Enhancement_InvestmentAccounts;V1.0.0.0;component/app.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/CS410_Enhancement_InvestmentAccounts;component/app.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\App.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

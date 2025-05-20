@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="CS410_Enhancement_InvestmentAccounts.Views.UsersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CS410_Enhancement_InvestmentAccounts.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width=".2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height=".2*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Investment Accounts" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
+
+            <!-- New Controls in Column 1, Row 1 -->
+            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10">
+
+                <TextBlock Text="Name: " Style="{StaticResource txtblock}"/>
+                <!-- TextBox for Name -->
+                <TextBox x:Name="NameTextBox" Width="200" Height="30" Margin="0,0,0,10" Style="{StaticResource txtbox}" Text="{Binding Model.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+
+                <TextBlock Text="Password: " Style="{StaticResource txtblock}"/>
+                <!-- ComboBox for Options -->
+                <TextBox x:Name="passwordtextbox1" Width="200" Height="30" Margin="0,0,0,10" Style="{StaticResource txtbox}" Text="{Binding Model.Pass, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <TextBlock Text="Password: " Style="{StaticResource txtblock}"/>
+                <TextBox x:Name="passwordtextbox2" Width="200" Height="30" Margin="0,0,0,10" Style="{StaticResource txtbox}" Text="{Binding Model.Pass2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <!-- Submit Button -->
+                <Button Content="Submit"  Style="{StaticResource buttn}" IsEnabled="{Binding Model.IsValid, Mode=OneWay}" Command="{Binding SubmitCommand}" Margin="0 0 0 10"/>
+                <Button Content="Delete"  Style="{StaticResource buttn}" IsEnabled="{Binding Model.IsSelected, Mode=OneWay}" Command="{Binding DeleteCommand}" Margin="0 0 0 10"/>
+                <Button Content="Return"  Style="{StaticResource buttn}" IsEnabled="True" Command="{Binding ReturnCommand}"/>
+            </StackPanel>
+
+
+
+            <DataGrid x:Name="mydatagrid2" Grid.Row="1"
+                   CanUserAddRows="True" SelectedItem="{Binding Model.SelectedItem, Mode=TwoWay}"
+                   Grid.Column="2" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding UserName}" Width="2*" IsReadOnly="True" >
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontSize" Value="15"/>
+                                <Setter Property="FontFamily" Value="Rockwell" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                   
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+
+</UserControl>

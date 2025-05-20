@@ -23,3 +23,6 @@ C:\Users\smufg\source\repos\CS410_Enhancement_InvestmentAccounts\CS410_Enhanceme
 C:\Users\smufg\source\repos\CS410_Enhancement_InvestmentAccounts\CS410_Enhancement_InvestmentAccounts\obj\Debug\net8.0-windows\CS410_Enhancement_InvestmentAccounts.pdb
 C:\Users\smufg\source\repos\CS410_Enhancement_InvestmentAccounts\CS410_Enhancement_InvestmentAccounts\obj\Debug\net8.0-windows\CS410_Enhancement_InvestmentAccounts.genruntimeconfig.cache
 C:\Users\smufg\source\repos\CS410_Enhancement_InvestmentAccounts\CS410_Enhancement_InvestmentAccounts\obj\Debug\net8.0-windows\ref\CS410_Enhancement_InvestmentAccounts.dll
+C:\Users\smufg\source\repos\CS410_Enhancement_InvestmentAccounts\CS410_Enhancement_InvestmentAccounts\obj\Debug\net8.0-windows\Views\UsersView.g.cs
+C:\Users\smufg\source\repos\CS410_Enhancement_InvestmentAccounts\CS410_Enhancement_InvestmentAccounts\obj\Debug\net8.0-windows\Views\UsersView.baml
+C:\Users\smufg\source\repos\CS410_Enhancement_InvestmentAccounts\CS410_Enhancement_InvestmentAccounts\obj\Debug\net8.0-windows\CS410_Enhancement_InvestmentAccounts.sourcelink.json

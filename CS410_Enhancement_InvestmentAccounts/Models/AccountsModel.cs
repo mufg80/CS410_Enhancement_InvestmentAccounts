@@ -17,7 +17,7 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
         public event PropertyChangedEventHandler? PropertyChanged;
         public ObservableCollection<AccountModel> Models { get; set; }
 
-        private const string PATH = ".\\Models\\Accounts.txt";
+        
         private string nametext;
         private Option optionenum;
         private bool isvalid;
@@ -102,20 +102,27 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
 
         private void SelectedItem_PropChanged(object? sender, EventArgs e)
         {
-            WriteToDisk();
+            var FileSaver = new Util.FileSaver();
+            FileSaver.WriteToDisk(new List<UserModel>(), Models.ToList());
         }
 
         public AccountsModel()
         {
             Models = new ObservableCollection<AccountModel>();
-            ReadFromDisk();
+
+            Models.CollectionChanged -= Models_CollectionChanged;
+            var FileSaver = new Util.FileSaver();
+            var items = FileSaver.ReadFromDisk();
+            
+            Models = new ObservableCollection<AccountModel>(items.Item1);
             Models.CollectionChanged += Models_CollectionChanged;
 
         }
 
         private void Models_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            WriteToDisk();
+            var FileSaver = new Util.FileSaver();
+            FileSaver.WriteToDisk(new List<UserModel>(), Models.ToList());
         }
 
         private void validate()
@@ -131,107 +138,7 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
             }
         }
 
-        private string CreateStringFromModels()
-        {
-            string result = string.Empty;
-            foreach (var item in Models)
-            {
-                result += $"{item.Name}|{item.Option}\n";
-            }
-            return result;
-        }
 
-        private void WriteToDisk()
-        {
-            using (Aes aes = Aes.Create())
-            {
-                aes.KeySize = 256;
-                aes.GenerateIV();
-                aes.GenerateKey();
-
-                using (ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
-                {
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
-                        {
-                            using (StreamWriter sw = new StreamWriter(cs))
-                            {
-                                sw.Write(CreateStringFromModels());
-                            }
-                            byte[] encrypted = ms.ToArray();
-                            File.WriteAllBytes(PATH, encrypted);
-                            File.WriteAllBytes(PATH + ".iv", aes.IV);
-                            File.WriteAllBytes(PATH + ".key", aes.Key);
-                        }
-                    }
-                }
-            }
-
-
-        }
-
-        private void ReadFromDisk()
-        {
-            Models.CollectionChanged -= Models_CollectionChanged;
-            if (!Directory.Exists(".\\Models"))
-            {
-                Directory.CreateDirectory(".\\Models");
-            }
-            if (!File.Exists(PATH))
-            {
-                File.Create(PATH).Close();
-                return;
-            }
-            try
-            {
-                byte[] items = File.ReadAllBytes(PATH);
-                byte[] key = File.ReadAllBytes(PATH + ".key");
-                byte[] iv = File.ReadAllBytes(PATH + ".iv");
-
-                if (items.Length == 0)
-                {
-                    return;
-                }
-                string itemstring;
-                using (ICryptoTransform decryptor = Aes.Create().CreateDecryptor(key, iv))
-                {
-                    using (MemoryStream ms = new MemoryStream(items))
-                    {
-                        using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
-                        {
-                            using (StreamReader sr = new StreamReader(cs))
-                            {
-                                itemstring = sr.ReadToEnd();
-                            }
-                        }
-                    }
-                }
-
-
-
-                string[] itemsArray = itemstring.Split('\n');
-                Models.Clear();
-                foreach (string item in itemsArray)
-                {
-                    string[] itemArray = item.Split('|');
-                    if (itemArray.Length == 2)
-                    {
-                        AccountModel model = new AccountModel(itemArray[0], (Option)Enum.Parse(typeof(Option), itemArray[1]));
-                        Models.Add(model);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-
-            }
-            finally
-            {
-                Models.CollectionChanged += Models_CollectionChanged;
-            }
-
-        }
 
     }
 

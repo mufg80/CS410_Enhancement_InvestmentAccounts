@@ -22,6 +22,7 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
             this.Option = o;
         }
 
+
         public override bool Equals(object? obj)
         {
             if (obj is AccountModel model)
@@ -32,6 +33,10 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
         }
         public override int GetHashCode()
         {
+            if(Name == null)
+            {
+                return 0;
+            }
             return Name.GetHashCode();
         }
     }

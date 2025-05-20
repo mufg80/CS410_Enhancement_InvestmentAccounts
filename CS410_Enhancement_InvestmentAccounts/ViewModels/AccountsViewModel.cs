@@ -1,6 +1,9 @@
 ﻿using CS410_Enhancement_InvestmentAccounts.Models;
+using CS410_Enhancement_InvestmentAccounts.Util;
+using CS410_Enhancement_InvestmentAccounts.Views;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,22 +12,29 @@ using System.Windows.Input;
 
 namespace CS410_Enhancement_InvestmentAccounts.ViewModels
 {
-    public class AccountsViewModel
+    public class AccountsViewModel: INotifyPropertyChanged
     {
+        private bool isAdmin = false;
+
+        public string userLoggedIn { get; set; } = string.Empty;
         public AccountsModel Model { get; set; }
         public ICommand SubmitCommand { get; }
         public ICommand DeleteCommand { get; }
         public ICommand LogoutCommand { get; }
-        public event EventHandler<bool> Logout;
-
+        public ICommand UsersCommand { get; }
+        public bool IsAdmin { get { return isAdmin; } set { isAdmin = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsAdmin")); } }
+        public event EventHandler<bool> ChangePage;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public AccountsViewModel()
         {
             Model = new AccountsModel();
 
+            
 
             Model.OptionEnum = Enums.Option.Brokerage;
             Model.IsSelected = false;
+
 
             SubmitCommand = new Commands.ButtonCommand(() =>
             {
@@ -47,10 +57,15 @@ namespace CS410_Enhancement_InvestmentAccounts.ViewModels
             LogoutCommand = new Commands.ButtonCommand(() =>
             {
                 Model.NameText = string.Empty;
-                Logout?.Invoke(this, true);
+                userLoggedIn = string.Empty;
+                ChangePage?.Invoke(this, true);
+            });
+
+            UsersCommand = new Commands.ButtonCommand(() =>
+            {
+                ChangePage?.Invoke(this, false);
             });
         }
-
 
     }
 

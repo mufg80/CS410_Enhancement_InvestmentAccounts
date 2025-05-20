@@ -41,13 +41,16 @@
                 <!-- Submit Button -->
                 <Button Content="Submit"  Style="{StaticResource buttn}" IsEnabled="{Binding Model.IsValid, Mode=OneWay}" Command="{Binding SubmitCommand}" Margin="0 0 0 10"/>
                 <Button Content="Delete"  Style="{StaticResource buttn}" IsEnabled="{Binding Model.IsSelected, Mode=OneWay}" Command="{Binding DeleteCommand}" Margin="0 0 0 10"/>
-                <Button Content="Logout"  Style="{StaticResource buttn}" IsEnabled="True" Command="{Binding LogoutCommand}"/>
+
+                <Button Content="Users"  Style="{StaticResource buttn}" IsEnabled="{Binding IsAdmin}" Command="{Binding UsersCommand}" Margin="0 0 0 10"/>
+
+                <Button Content="Logout"  Style="{StaticResource buttn}" IsEnabled="True" Command="{Binding LogoutCommand}" Margin="0 0 0 10"/>
             </StackPanel>
 
 
 
             <DataGrid x:Name="mydatagrid" Grid.Row="1"
-                      CanUserAddRows="True" SelectedItem="{Binding Model.SelectedItem, Mode=TwoWay}"
+                      CanUserAddRows="False" SelectedItem="{Binding Model.SelectedItem, Mode=TwoWay}"
                       Grid.Column="2" AutoGenerateColumns="False">
 
 

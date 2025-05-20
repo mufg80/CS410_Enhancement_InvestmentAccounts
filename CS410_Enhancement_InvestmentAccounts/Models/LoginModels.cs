@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CS410_Enhancement_InvestmentAccounts.Util;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,8 +11,6 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
 {
     public class LoginModels
     {
-        private Dictionary<string, string> Logins = new Dictionary<string, string>();
-        private const string PATH = ".\\Models\\Logins.txt";
 
         private string nametext;
         public string NameText
@@ -41,52 +40,27 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
 
         public LoginModels()
         {
-            ReadFromDisk();
         }
 
-        private void WriteToDisk()
-        {
-            using (Aes aes = Aes.Create())
-            {
-                aes.KeySize = 256;
-                aes.GenerateIV();
-                aes.GenerateKey();
-
-                using (ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
-                {
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
-                        {
-                            using (StreamWriter sw = new StreamWriter(cs))
-                            {
-                                sw.Write(CreateStringFromModels());
-                            }
-                            byte[] encrypted = ms.ToArray();
-                            File.WriteAllBytes(PATH, encrypted);
-                            File.WriteAllBytes(PATH + ".iv", aes.IV);
-                            File.WriteAllBytes(PATH + ".key", aes.Key);
-                        }
-                    }
-                }
-            }
-
-
-        }
 
 
 
         public bool ValidateLogin()
         {
-            if (Logins.Count == 0)
+            FileSaver fileSaver = new FileSaver();
+            var (accounts, users) = fileSaver.ReadFromDisk();
+            if (users.Count == 0)
             {
-                Logins.Add(NameText, HashString(PassText));
-                WriteToDisk();
+                UserModel model = new UserModel(NameText, HashString(passtext));
+                List<UserModel> models = new List<UserModel>();
+                models.Add(model);
+                fileSaver.WriteToDisk(models, new List<AccountModel>());
                 return true;
             }
-            foreach (var item in Logins)
+            foreach (var item in users)
             {
-                if (item.Key == nametext && item.Value == HashString(passtext))
+                string hash = HashString(PassText);
+                if (item.UserName == nametext && item.UserHash == hash)
                 {
                     return true;
                 }
@@ -94,77 +68,6 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
             return false;
         }
 
-        private string CreateStringFromModels()
-        {
-            if (Logins.Count == 0)
-            {
-                return string.Empty;
-            }
-            string result = string.Empty;
-            foreach (var item in Logins)
-            {
-                result = string.Empty;
-                result += $"{item.Key}|{item.Value}\n";
-
-            }
-            return result;
-        }
-
-        private void ReadFromDisk()
-        {
-            if (!Directory.Exists(".\\Models"))
-            {
-                Directory.CreateDirectory(".\\Models");
-            }
-            if (!File.Exists(PATH))
-            {
-                File.Create(PATH).Close();
-                return;
-            }
-            try
-            {
-                byte[] items = File.ReadAllBytes(PATH);
-                byte[] key = File.ReadAllBytes(PATH + ".key");
-                byte[] iv = File.ReadAllBytes(PATH + ".iv");
-
-                if (items.Length == 0)
-                {
-                    return;
-                }
-                string itemstring;
-                using (ICryptoTransform decryptor = Aes.Create().CreateDecryptor(key, iv))
-                {
-                    using (MemoryStream ms = new MemoryStream(items))
-                    {
-                        using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
-                        {
-                            using (StreamReader sr = new StreamReader(cs))
-                            {
-                                itemstring = sr.ReadToEnd();
-                            }
-                        }
-                    }
-                }
-
-
-
-                string[] itemsArray = itemstring.Split('\n');
-                Logins.Clear();
-                foreach (string item in itemsArray)
-                {
-                    string[] itemArray = item.Split('|');
-                    if (itemArray.Length == 2)
-                    {
-                        Logins.Add(itemArray[0], itemArray[1]);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-
-            }
-
-        }
 
         public string HashString(string input, bool useBase64 = false)
         {
