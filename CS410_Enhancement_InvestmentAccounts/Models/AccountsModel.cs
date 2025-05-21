@@ -12,16 +12,29 @@ using System.Threading.Tasks;
 
 namespace CS410_Enhancement_InvestmentAccounts.Models
 {
+    /// <summary>
+    /// This class is used to model the accounts for the investment app. It contains a collection of account models and a selected item.
+    /// This is the main model for the application, and the viewmodel uses this as its model class implementing MVVM. This class
+    /// also controls serialization of the account models to disk. It implements INotifyPropertyChanged to notify the view to update.
+    /// </summary>
     public class AccountsModel : INotifyPropertyChanged
     {
+        /// <summary>Implmentation of the INotifyPropertyChanged interface. This is used to notify the view to update when a property changes.</summary>
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// <summary>Collection of account models. This is the main model for the application.</summary>
         public ObservableCollection<AccountModel> Models { get; set; }
 
-        
+        /// <summary>
+        /// All properties needed for account view tied through the viewmodel.
+        /// Many fire the property changed interface to alert view of changes.
+        /// </summary>
+
         private string nametext;
         private Option optionenum;
         private bool isvalid;
-
+        private bool isSelected;
+        private AccountModel selectedItem;
 
         public string NameText
         {
@@ -32,8 +45,8 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
             set
             {
                 nametext = value;
-                validate();
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("NameText"));
+                Validate();
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NameText)));
             }
         }
         public Option OptionEnum
@@ -45,8 +58,8 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
             set
             {
                 optionenum = value;
-                validate();
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("OptionEnum"));
+                Validate();
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(OptionEnum)));
             }
         }
         public bool IsValid
@@ -54,7 +67,6 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
             get
             {
                 return isvalid;
-
             }
             set
             {
@@ -62,17 +74,17 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("isValid"));
             }
         }
-
-        private bool isSelected;
-
         public bool IsSelected
         {
             get { return isSelected; }
-            set { isSelected = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsSelected")); }
+            set { isSelected = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected))); }
         }
 
-        private AccountModel selectedItem;
-
+        /// <summary>
+        /// Selected item is the datagrids active selection. This setter unsubscribes 
+        /// the old item and subscribes the new item to the property changed event. That
+        /// way only one item is subscribed at a time. This is important for serialization.
+        /// </summary>
         public AccountModel SelectedItem
         {
             get { return selectedItem; }
@@ -99,35 +111,48 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
                 }
             }
         }
-
+        /// <summary>
+        /// This method is used to notify the utility that the change must be serialized to disk.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SelectedItem_PropChanged(object? sender, EventArgs e)
         {
-            var FileSaver = new Util.FileSaver();
-            FileSaver.WriteToDisk(new List<UserModel>(), Models.ToList());
+            Util.FileSaver.WriteToDisk([], [.. Models]);
         }
 
+        /// <summary>
+        /// This is the constructor for the AccountsModel class. It initializes the collection of account models and reads from disk.
+        /// This also signes up for observable collection property changed events for serialization.
+        /// </summary>
         public AccountsModel()
         {
-            Models = new ObservableCollection<AccountModel>();
+            Models = [];
 
             Models.CollectionChanged -= Models_CollectionChanged;
-            var FileSaver = new Util.FileSaver();
-            var items = FileSaver.ReadFromDisk();
+            var items = Util.FileSaver.ReadFromDisk();
             
-            Models = new ObservableCollection<AccountModel>(items.Item1);
+            Models = [.. items.Item1];
             Models.CollectionChanged += Models_CollectionChanged;
 
         }
 
+        /// <summary>
+        /// This method is used to notify the utility that the change must be serialized to disk. It is called when the collection changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Models_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            var FileSaver = new Util.FileSaver();
-            FileSaver.WriteToDisk(new List<UserModel>(), Models.ToList());
+            Util.FileSaver.WriteToDisk([], [.. Models]);
         }
 
-        private void validate()
+        /// <summary>
+        /// This method is used to validate the name of the account. It checks if the name is not empty and if it only contains letters and spaces.
+        /// This is called from the setters of the properties in question. IsValid is used to enable the submit button on the View.
+        /// </summary>
+        private void Validate()
         {
-
             if (!string.IsNullOrEmpty(NameText) && NameText.All(c => char.IsLetter(c) || char.IsWhiteSpace(c)))
             {
                 IsValid = true;

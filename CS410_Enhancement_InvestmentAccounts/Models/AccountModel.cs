@@ -8,9 +8,15 @@ using System.Threading.Tasks;
 
 namespace CS410_Enhancement_InvestmentAccounts.Models
 {
+    /// <summary>This class is used to model an account for the investment app. It contains the name of the account and the type.</summary>
+    /// <remarks>Contructor forces parameters upon initialization, no account is valid without both properties.
+    /// The class also features an event, firing if the enum is edited. This is for serialization.</remarks>
+    
     public class AccountModel
     {
         private Option option;
+
+        /// <summary> Notifys the utility that the change must be serialized to disk.</summary>
         public event EventHandler? PropChanged;
 
         public string Name { get; set; }
@@ -22,7 +28,11 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
             this.Option = o;
         }
 
-
+        /// <summary>
+        /// Boilerplate equals and hashcode methods. In this case they only consider the name, each name must be unique.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>Boolean</returns>
         public override bool Equals(object? obj)
         {
             if (obj is AccountModel model)
@@ -31,6 +41,11 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
             }
             return false;
         }
+
+        /// <summary>
+        /// Boilerplate equals and hashcode methods. In this case they only consider the name, each name must be unique.
+        /// </summary>
+        /// <returns>integer</returns>
         public override int GetHashCode()
         {
             if(Name == null)

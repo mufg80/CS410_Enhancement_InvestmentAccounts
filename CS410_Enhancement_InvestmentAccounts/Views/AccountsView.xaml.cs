@@ -20,6 +20,7 @@ namespace CS410_Enhancement_InvestmentAccounts.Views
 {
     /// <summary>
     /// Interaction logic for AccountsView.xaml
+    /// Static enumValues used by view to hold options in the combo boxes.
     /// </summary>
     public static class EnumValues
     {
@@ -27,20 +28,20 @@ namespace CS410_Enhancement_InvestmentAccounts.Views
     }
     /// <summary>
     /// Interaction logic for AccountsView.xaml
+    /// Codebehind initializes the viewmodel and sets the datacontext to the viewmodel. This allows
+    /// the datagrid and buttons to bind to the viewmodel properties and commands.
     /// </summary>
     public partial class AccountsView : UserControl
     {
-        public AccountsViewModel viewModel { get; set; }
+        public AccountsViewModel ViewModel { get; set; }
         public AccountsView()
         {
-            viewModel = new AccountsViewModel();
-            this.DataContext = viewModel;
+            ViewModel = new AccountsViewModel();
+            this.DataContext = ViewModel;
 
             InitializeComponent();
-            var f = mydatagrid.DataContext;
-            var g = mydatagrid.ItemsSource;
-            mydatagrid.DataContext = viewModel;
-            mydatagrid.ItemsSource = viewModel.Model.Models;
+            mydatagrid.DataContext = ViewModel;
+            mydatagrid.ItemsSource = ViewModel.Model.Models;
 
         }
 

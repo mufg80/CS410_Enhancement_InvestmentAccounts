@@ -17,28 +17,44 @@ namespace CS410_Enhancement_InvestmentAccounts
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
+    /// Mainwindow codebehind controls the views and page turning navigation.
+    /// It holds the views as properties and uses callback events to turn the pages.
     /// </summary>
     public partial class MainWindow : Window
     {
-        LoginView loginView = new LoginView();
-        AccountsView accountsView = new AccountsView();
-        UsersView userView = new UsersView();
+        // Three views are created and held during application life.
+        private readonly LoginView loginView = new();
+        private readonly AccountsView accountsView = new();
+        private readonly UsersView userView = new();
 
+        /// <summary>
+        /// Constructor subscribes to the events for navigation.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
             myGrid.Children.Add(loginView);
-            loginView.viewModel.ILoggedIn += ViewModel_ILoggedIn;
-            accountsView.viewModel.ChangePage += ViewModel_LoggedOut;
+            loginView.ViewModel.ILoggedIn += ViewModel_ILoggedIn;
+            accountsView.ViewModel.ChangePage += ViewModel_LoggedOut;
             userView.ViewModel.ReturnPage += ViewModel_ReturnPage;
         }
-
+        /// <summary>
+        /// Return to the accounts view from the users view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ViewModel_ReturnPage(object? sender, bool e)
         {
             myGrid.Children.Clear();
             myGrid.Children.Add(accountsView);
         }
 
+        /// <summary>
+        /// Either return to login or go to user view, same event for both.
+        /// boolean sent decides which to activate.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ViewModel_LoggedOut(object? sender, bool e)
         {
             if (e)
@@ -55,31 +71,34 @@ namespace CS410_Enhancement_InvestmentAccounts
                
         }
 
+        /// <summary>
+        /// Logging in event is sent from the login viewmodel to the main window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ViewModel_ILoggedIn(object? sender, bool e)
         {
+            // If the user is logged in, go to the accounts view.
+            // If the user is an admin, set the admin flag in the accounts view model.
             if (e)
             {
                 userView.ViewModel.Model.UpdateView();
                 myGrid.Children.Clear();
                 myGrid.Children.Add(accountsView);
 
-                FileSaver fileSaver = new FileSaver();
-                var s = fileSaver.ReadFromDisk();
+                // Check if user is admin and set appropriate properties.
+                FileSaver fileSaver = new();
+                var s = FileSaver.ReadFromDisk();
                 var adminAccount = s.Item2.Where(x => x.IsAdmin).FirstOrDefault();
                 
-
-                if(adminAccount != null && adminAccount.UserName == loginView.viewModel.Model.NameText)
+                if(adminAccount != null && adminAccount.UserName == loginView.ViewModel.Model.NameText)
                 {
-                    accountsView.viewModel.IsAdmin = true;
+                    accountsView.ViewModel.IsAdmin = true;
                 }else
                 {
-                    accountsView.viewModel.IsAdmin = false;
+                    accountsView.ViewModel.IsAdmin = false;
                 }
-
-
             }
-
         }
     }
-
 }

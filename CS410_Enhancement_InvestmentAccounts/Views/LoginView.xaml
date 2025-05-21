@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:CS410_Enhancement_InvestmentAccounts.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <!--Holding Enter key binding so that submit is easier.-->
     <UserControl.InputBindings>
         <KeyBinding Gesture="Enter" Command="{Binding SubmitButtonCommand}"/>
     </UserControl.InputBindings>
@@ -22,6 +24,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Grid.Column="1" >
+
+            <!--Main title of page holding greeting/information.-->
             <TextBlock Text="Investment Accounts"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
             <TextBlock Text="Welcome to the Investment app" Style="{StaticResource txtblock}" VerticalAlignment="Center" HorizontalAlignment="Center" />
         </StackPanel>
@@ -37,13 +41,16 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
+                <!--Name text block and box for inputting login name and password.-->
                 <TextBlock Text="Username:" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="5" Style="{StaticResource txtblock}"/>
                 <TextBlock Text="Password:" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="5" Style="{StaticResource txtblock}"/>
 
                 <TextBox x:Name="userText" Grid.Row="0" Grid.Column="1" Margin="5" Style="{StaticResource txtbox}" Text="{Binding Model.NameText, Mode=OneWayToSource}" />
-                <PasswordBox x:Name="passText"  Grid.Row="1" Grid.Column="1" Margin="5" Style="{StaticResource pssbox}" PasswordChanged="passText_PasswordChanged" />
+                <PasswordBox x:Name="passText"  Grid.Row="1" Grid.Column="1" Margin="5" Style="{StaticResource pssbox}" PasswordChanged="PassText_PasswordChanged" />
 
             </Grid>
+
+            <!-- Buttons bound to ButtonCommand class in Viewmodel. -->
             <Button Content="Submit" Margin="20" Command="{Binding SubmitButtonCommand}" Style="{StaticResource buttn}"/>
 
         </StackPanel>

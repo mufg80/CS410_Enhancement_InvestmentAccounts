@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <!--Holding Enter key binding so that submit is easier.-->
     <UserControl.InputBindings>
         <KeyBinding Gesture="Enter" Command="{Binding SubmitCommand}"/>
     </UserControl.InputBindings>
@@ -25,6 +26,8 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
+
+                <!--Main title of page holding greeting/information.-->
                 <TextBlock Text="Investment Accounts"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
                 <TextBlock Text="Add users" Style="{StaticResource txtblock}" VerticalAlignment="Center" HorizontalAlignment="Center" />
             </StackPanel>
@@ -41,18 +44,22 @@
                 <TextBox x:Name="passwordtextbox1" Width="200" Height="30" Margin="0,0,0,10" Style="{StaticResource txtbox}" Text="{Binding Model.Pass, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 <TextBlock Text="Password: " Style="{StaticResource txtblock}"/>
                 <TextBox x:Name="passwordtextbox2" Width="200" Height="30" Margin="0,0,0,10" Style="{StaticResource txtbox}" Text="{Binding Model.Pass2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                <!-- Submit Button -->
+               
+                <!-- Buttons for various controls bound to ButtonCommand class in Viewmodel. -->
+                
                 <Button Content="Submit"  Style="{StaticResource buttn}" IsEnabled="{Binding Model.IsValid, Mode=OneWay}" Command="{Binding SubmitCommand}" Margin="0 0 0 10"/>
                 <Button Content="Delete"  Style="{StaticResource buttn}" IsEnabled="{Binding Model.IsSelected, Mode=OneWay}" Command="{Binding DeleteCommand}" Margin="0 0 0 10"/>
                 <Button Content="Return"  Style="{StaticResource buttn}" IsEnabled="True" Command="{Binding ReturnCommand}"/>
             </StackPanel>
 
 
-
+            <!--Datagrid to hold the list of users, will allow deletion using delete button.-->
             <DataGrid x:Name="mydatagrid2" Grid.Row="1"
                    CanUserAddRows="True" SelectedItem="{Binding Model.SelectedItem, Mode=TwoWay}"
                    Grid.Column="2" AutoGenerateColumns="False">
                 <DataGrid.Columns>
+                    
+                    <!--Text block column non editable and holding name only, user can delete by selecting and using delete button.-->
                     <DataGridTextColumn Header="Name" Binding="{Binding UserName}" Width="2*" IsReadOnly="True" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">

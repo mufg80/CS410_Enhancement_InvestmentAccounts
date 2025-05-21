@@ -6,12 +6,16 @@
         xmlns:local="clr-namespace:CS410_Enhancement_InvestmentAccounts"
         mc:Ignorable="d"
         Title="MainWindow" Height="650" Width="950">
+    
+    <!--Linear gradient brush to give the app its color scheme. Light blue to white as it traverses screen.-->
     <Window.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="LightBlue" Offset="0.4"/>
             <GradientStop Color="White" Offset="0.9"/>
         </LinearGradientBrush>
     </Window.Background>
+    
+    <!-- Grid to hold the views, this grid is given its child view in the code behind.-->
     <Grid x:Name="myGrid">
     </Grid>
 

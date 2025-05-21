@@ -18,6 +18,8 @@ namespace CS410_Enhancement_InvestmentAccounts.Views
 {
     /// <summary>
     /// Interaction logic for UsersView.xaml
+    /// Codebehind initializes the viewmodel and sets the datacontext to the viewmodel. This allows
+    /// the datagrid and buttons to bind to the viewmodel properties and commands.
     /// </summary>
     public partial class UsersView : UserControl
     {
@@ -28,7 +30,6 @@ namespace CS410_Enhancement_InvestmentAccounts.Views
             ViewModel = new UsersViewModel();
             this.DataContext = ViewModel;
             mydatagrid2.ItemsSource = ViewModel.Model.Models;
-            
         }
     }
 }

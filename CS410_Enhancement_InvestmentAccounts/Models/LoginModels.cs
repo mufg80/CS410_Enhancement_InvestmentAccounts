@@ -10,9 +10,12 @@ using System.Windows;
 
 namespace CS410_Enhancement_InvestmentAccounts.Models
 {
+    /// <summary>Login Model is the MVVM model for the login page. This is used to hold data and run business logic for the login page.</summary>
     public class LoginModels
     {
+        /// <summary> Properties for the textboxes on the login view. This class is held as a property by the view model. </summary>
         private string nametext;
+        private string passtext;
         public string NameText
         {
             get
@@ -25,7 +28,7 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
             }
         }
 
-        private string passtext;
+        
         public string PassText
         {
             get
@@ -43,7 +46,12 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
         }
 
 
-
+        /// <summary>
+        /// This method is used to validate the login. It checks if the username and password are not empty, and if they are valid.
+        /// Important: Upon first login, the user is created and saved to disk as well as being made admin account for the app. No
+        /// other admin is created in this application.
+        /// </summary>
+        /// <returns>Boolean</returns>
 
         public bool ValidateLogin()
         {
@@ -52,16 +60,18 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
                 return false;
             }
 
-            FileSaver fileSaver = new FileSaver();
-            var (accounts, users) = fileSaver.ReadFromDisk();
+            var (_, users) = FileSaver.ReadFromDisk();
+
+            // If first time running, create a new user and save to disk. Make user admin(can add more users).
             if (users.Count == 0)
             {
-                UserModel model = new UserModel(NameText, FileSaver.HashString(passtext), true);
-                List<UserModel> models = new List<UserModel>();
-                models.Add(model);
-                fileSaver.WriteToDisk(models, new List<AccountModel>());
+                UserModel model = new(NameText, FileSaver.HashString(passtext), true);
+                List<UserModel> models = [model];
+                FileSaver.WriteToDisk(models, []);
                 return true;
             }
+
+            // After first run, simply check against the existing users. Compare username and password hash(SHA 256).
             foreach (var item in users)
             {
                 string hash = FileSaver.HashString(PassText);

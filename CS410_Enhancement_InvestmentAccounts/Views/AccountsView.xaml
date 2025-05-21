@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:CS410_Enhancement_InvestmentAccounts.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
+    <!--Holding Enter key binding so that submit is easier.-->
     <UserControl.InputBindings>
         <KeyBinding Gesture="Enter" Command="{Binding SubmitCommand}"/>
     </UserControl.InputBindings>
@@ -23,6 +25,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height=".2*"/>
             </Grid.RowDefinitions>
+            <!--Main title of page holding greeting/information.-->
             <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
                 <TextBlock Text="Investment Accounts"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
                 <TextBlock Text="Add accounts" Style="{StaticResource txtblock}" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -31,16 +34,18 @@
             <!-- New Controls in Column 1, Row 1 -->
             <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10">
 
+                <!--Name text block and box for inputting account name.-->
                 <TextBlock Text="Name: " Style="{StaticResource txtblock}"/>
                 <!-- TextBox for Name -->
                 <TextBox x:Name="NameTextBox" Width="200" Height="30" Margin="0,0,0,10" Style="{StaticResource txtbox}" Text="{Binding Model.NameText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
+                <!--Name text block and combobox for inputting account option.-->
                 <TextBlock Text="Option: " Style="{StaticResource txtblock}"/>
                 <!-- ComboBox for Options -->
                 <ComboBox x:Name="OptionsComboBox" Width="200" Height="30" Margin="0,0,0,10" SelectedItem="{Binding Model.OptionEnum, Mode=TwoWay}"
                ItemsSource="{Binding Source={x:Static local:EnumValues.Options}}" />
 
-                <!-- Submit Button -->
+                <!-- Buttons for various controls bound to ButtonCommand class in Viewmodel. -->
                 <Button Content="Submit"  Style="{StaticResource buttn}" IsEnabled="{Binding Model.IsValid, Mode=OneWay}" Command="{Binding SubmitCommand}" Margin="0 0 0 10"/>
                 <Button Content="Delete"  Style="{StaticResource buttn}" IsEnabled="{Binding Model.IsSelected, Mode=OneWay}" Command="{Binding DeleteCommand}" Margin="0 0 0 10"/>
 
@@ -50,12 +55,12 @@
             </StackPanel>
 
 
-
+            <!--Datagrid to hold the list of accounts, will allow deletion using delete button and modification using selection and combobox.-->
             <DataGrid x:Name="mydatagrid" Grid.Row="1"
                       CanUserAddRows="False" SelectedItem="{Binding Model.SelectedItem, Mode=TwoWay}"
                       Grid.Column="2" AutoGenerateColumns="False">
 
-
+                <!--Text block column non editable.-->
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="2*" IsReadOnly="True" >
                         <DataGridTextColumn.ElementStyle>
@@ -65,6 +70,8 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
+                    
+                    <!--ComboBox column editable for account option.-->
                     <DataGridComboBoxColumn Header="Option"
                                     SelectedItemBinding="{Binding Option, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Width="*">
