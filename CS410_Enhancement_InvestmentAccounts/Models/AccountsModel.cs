@@ -150,10 +150,14 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
         /// <summary>
         /// This method is used to validate the name of the account. It checks if the name is not empty and if it only contains letters and spaces.
         /// This is called from the setters of the properties in question. IsValid is used to enable the submit button on the View.
+        /// It also checks if the name is between 3 and 20 characters long.
         /// </summary>
         private void Validate()
         {
-            if (!string.IsNullOrEmpty(NameText) && NameText.All(c => char.IsLetter(c) || char.IsWhiteSpace(c)))
+            if (!string.IsNullOrEmpty(NameText) && 
+                NameText.Length > 3 &&
+                NameText.Length < 20 &&
+                NameText.All(c => char.IsLetter(c) || char.IsWhiteSpace(c)))
             {
                 IsValid = true;
             }

@@ -10,6 +10,7 @@ using System.Text.Encodings;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace CS410_Enhancement_InvestmentAccounts.Util
 {
@@ -258,6 +259,53 @@ namespace CS410_Enhancement_InvestmentAccounts.Util
                     sb.Append(b.ToString("x2")); // Lowercase hex
                 }
                 return sb.ToString();
+            }
+        }
+
+        /// <summary> Method to validate strings in one location to be used in Loginmodel and
+        /// UsersModel. The method checks if the strings are not null or empty, if the password and confirm password match,
+        /// if the name is unique, if the name and password are longer than 8 characters,
+        /// if the name contains only letters and spaces, and if the password contains only letters and numbers.</summary>
+        /// <param name="name">The name to check.</param>
+        /// <param name="password">The password to check.</param>
+        /// <param name="password2">The confirm password to check.</param>
+        /// <returns>Boolean</returns>
+        public static bool ValidateStrings(string name, string password, string password2)
+        {
+            if (!string.IsNullOrEmpty(name) &&
+                !string.IsNullOrEmpty(password) &&
+                !string.IsNullOrEmpty(password2) &&
+                password.Equals(password2) && IsUnique(name) &&
+                name.Length > 8 &&
+                password.Length > 8 &&
+                name.All(c => char.IsLetter(c) || char.IsWhiteSpace(c)) &&
+                password.All(c => char.IsLetter(c) || char.IsNumber(c)))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+
+        /// <summary> Helper method to check uniquness of username so that duplicates are not added to system.</summary>
+        /// <param name="name">The name to check for uniqueness.</param>
+        private static bool IsUnique(string name)
+        {
+            FileSaver saver = new();
+            var items = FileSaver.ReadFromDisk();
+
+            bool isInDatabase = items.Item2.Any(x => x.UserName.Equals(name));
+            if (isInDatabase)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 

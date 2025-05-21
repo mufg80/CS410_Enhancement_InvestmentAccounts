@@ -109,12 +109,7 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
         private void Validate()
         {
             // Perform check on user inputs.Disable or enable submit button based on the results.
-            if (!string.IsNullOrEmpty(Name) && 
-                !string.IsNullOrEmpty(Pass) && 
-                !string.IsNullOrEmpty(Pass2) && 
-                Pass.Equals(Pass2) && IsUnique(Name) &&  
-                Name.All(c => char.IsLetter(c) || char.IsWhiteSpace(c)) && 
-                Pass.All(c => char.IsLetter(c) || char.IsNumber(c)))
+            if (FileSaver.ValidateStrings(Name, Pass, Pass2))
             {
                 IsValid = true;
             }
@@ -124,23 +119,6 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
             }
         }
 
-        /// <summary> Helper method to check uniquness of username so that duplicates are not added to system.</summary>
-        /// <param name="name">The name to check for uniqueness.</param>
-        private static bool IsUnique(string name)
-        {
-            FileSaver saver = new();
-            var items = FileSaver.ReadFromDisk();
-
-            bool isInDatabase = items.Item2.Any(x => x.UserName.Equals(name));
-            if (isInDatabase)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
 
         /// <summary>
         /// Helper method to update the view. This method is called when the view is initialized and when the collection changes.

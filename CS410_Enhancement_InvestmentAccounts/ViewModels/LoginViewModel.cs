@@ -44,7 +44,6 @@ namespace CS410_Enhancement_InvestmentAccounts.ViewModels
                 else
                 {
                     UserLoggedIn = string.Empty;
-                    MessageBox.Show("Login Failed");
                     ILoggedIn?.Invoke(this, false);
                 }
             });

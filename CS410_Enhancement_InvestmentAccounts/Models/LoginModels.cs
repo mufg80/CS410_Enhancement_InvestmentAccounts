@@ -63,12 +63,18 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
             var (_, users) = FileSaver.ReadFromDisk();
 
             // If first time running, create a new user and save to disk. Make user admin(can add more users).
-            if (users.Count == 0)
+            if (users.Count == 0 && FileSaver.ValidateStrings(NameText, PassText, PassText))
             {
                 UserModel model = new(NameText, FileSaver.HashString(passtext), true);
                 List<UserModel> models = [model];
                 FileSaver.WriteToDisk(models, []);
+                string message = $"First user created. You are now admin. Please add more users in the app. User: {NameText} Password: {PassText}";
+                MessageBox.Show(message);
                 return true;
+            }else if(users.Count == 0)
+            {
+                MessageBox.Show("Please enter a valid username and password.");
+                return false;
             }
 
             // After first run, simply check against the existing users. Compare username and password hash(SHA 256).
