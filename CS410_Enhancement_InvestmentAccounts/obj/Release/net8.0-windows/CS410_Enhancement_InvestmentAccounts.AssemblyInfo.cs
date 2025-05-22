@@ -12,7 +12,7 @@ using System;
 using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("CS410_Enhancement_InvestmentAccounts")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+444f71e7876cbd8c975c86e1ab8f3f604cb662a8")]
 [assembly: System.Reflection.AssemblyProductAttribute("CS410_Enhancement_InvestmentAccounts")]
