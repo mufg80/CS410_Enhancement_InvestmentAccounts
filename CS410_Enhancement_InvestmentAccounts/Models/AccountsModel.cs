@@ -36,6 +36,15 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
         private bool isSelected;
         private AccountModel selectedItem;
 
+        private string validationMessage;
+
+        public string ValidationMessage
+        {
+            get { return validationMessage; }
+            set { validationMessage = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ValidationMessage))); }
+        }
+
+
         public string NameText
         {
             get
@@ -154,17 +163,34 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
         /// </summary>
         private void Validate()
         {
-            if (!string.IsNullOrEmpty(NameText) && 
-                NameText.Length > 3 &&
-                NameText.Length < 20 &&
-                NameText.All(c => char.IsLetter(c) || char.IsWhiteSpace(c)))
+            if (nametext == null)
             {
-                IsValid = true;
+                return;
+            }
+            if (string.IsNullOrEmpty(NameText) )
+            {
+                IsValid = false;
+                ValidationMessage = "";
+            }else if (NameText.Length <= 3)
+            {
+                IsValid = false;
+                ValidationMessage = "Name must be at least 4 characters long";
+            }else if (NameText.Length >= 20)
+            {
+                IsValid = false;
+                ValidationMessage = "Name must be less than 20 characters long";
+            } else if (!NameText.All(c => char.IsLetter(c) || char.IsWhiteSpace(c)))
+            {
+                IsValid = false;
+                ValidationMessage = "Name must be letters and spaces only";
             }
             else
             {
-                IsValid = false;
+                IsValid = true;
+                ValidationMessage = "Validation successful";
             }
+
+
         }
 
 

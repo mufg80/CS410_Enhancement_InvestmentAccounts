@@ -54,3 +54,4 @@ C:\Users\mufg8\source\repos\CS410_Enhancement_InvestmentAccounts\CS410_Enhanceme
 C:\Users\mufg8\source\repos\CS410_Enhancement_InvestmentAccounts\CS410_Enhancement_InvestmentAccounts\obj\Debug\net8.0-windows\CS410_Enhancement_InvestmentAccounts.pdb
 C:\Users\mufg8\source\repos\CS410_Enhancement_InvestmentAccounts\CS410_Enhancement_InvestmentAccounts\obj\Debug\net8.0-windows\CS410_Enhancement_InvestmentAccounts.genruntimeconfig.cache
 C:\Users\mufg8\source\repos\CS410_Enhancement_InvestmentAccounts\CS410_Enhancement_InvestmentAccounts\obj\Debug\net8.0-windows\ref\CS410_Enhancement_InvestmentAccounts.dll
+C:\Users\smufg\source\repos\CS410_Enhancement_InvestmentAccounts\CS410_Enhancement_InvestmentAccounts\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs

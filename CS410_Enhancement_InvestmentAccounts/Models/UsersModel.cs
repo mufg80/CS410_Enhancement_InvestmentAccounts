@@ -32,6 +32,14 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
         private bool isValid;
         private UserModel selectedItem;
         private bool isSelected;
+        private string validationMessage;
+
+        public string ValidationMessage
+        {
+            get { return validationMessage; }
+            set { validationMessage = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ValidationMessage))); }
+        }
+
 
         public bool IsSelected
         {
@@ -109,12 +117,15 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
         private void Validate()
         {
             // Perform check on user inputs.Disable or enable submit button based on the results.
-            if (FileSaver.ValidateStrings(Name, Pass, Pass2))
+            var item = FileSaver.ValidateStrings(Name, Pass, Pass2);
+            if (item.IsValid)
             {
+                ValidationMessage = item.Message;
                 IsValid = true;
             }
             else
             {
+                ValidationMessage = item.Message;
                 IsValid = false;
             }
         }

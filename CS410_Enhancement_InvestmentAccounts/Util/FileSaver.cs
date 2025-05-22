@@ -262,31 +262,55 @@ namespace CS410_Enhancement_InvestmentAccounts.Util
             }
         }
 
-        /// <summary> Method to validate strings in one location to be used in Loginmodel and
-        /// UsersModel. The method checks if the strings are not null or empty, if the password and confirm password match,
-        /// if the name is unique, if the name and password are longer than 8 characters,
-        /// if the name contains only letters and spaces, and if the password contains only letters and numbers.</summary>
-        /// <param name="name">The name to check.</param>
-        /// <param name="password">The password to check.</param>
-        /// <param name="password2">The confirm password to check.</param>
-        /// <returns>Boolean</returns>
-        public static bool ValidateStrings(string name, string password, string password2)
+        /// <summary>
+        /// Validates strings for use in LoginModel and UsersModel. The method checks if the name, password, and confirm password 
+        /// are not null or empty, if the password and confirm password match, if the name is unique, if the name and password 
+        /// are longer than 6 characters, either longer than 15, and if both the name and password contain only letters and numbers.
+        /// </summary>
+        /// <param name="name">The name to validate.</param>
+        /// <param name="password">The password to validate.</param>
+        /// <param name="password2">The confirm password to validate.</param>
+        /// <returns>A tuple containing a boolean indicating whether validation was successful and a string message describing 
+        /// the result or reason for failure.</returns>
+        public static (bool IsValid, string Message) ValidateStrings(string name, string password, string password2)
         {
-            if (!string.IsNullOrEmpty(name) &&
-                !string.IsNullOrEmpty(password) &&
-                !string.IsNullOrEmpty(password2) &&
-                password.Equals(password2) && IsUnique(name) &&
-                name.Length > 8 &&
-                password.Length > 8 &&
-                name.All(c => char.IsLetter(c) || char.IsWhiteSpace(c)) &&
-                password.All(c => char.IsLetter(c) || char.IsNumber(c)))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if(string.IsNullOrEmpty(name) && string.IsNullOrEmpty(password) && string.IsNullOrEmpty(password2))
+                return (false, "");
+
+            if (string.IsNullOrEmpty(name))
+                return (false, "Name cannot be empty");
+
+            if (string.IsNullOrEmpty(password))
+                return (false, "Password cannot be empty");
+
+            if (string.IsNullOrEmpty(password2))
+                return (false, "Confirmation password cannot be empty");
+
+            if (!password.Equals(password2))
+                return (false, "Passwords do not match");
+
+            if (!IsUnique(name))
+                return (false, "Name is not unique");
+
+            if (name.Length <= 6)
+                return (false, "Name must be longer than 6 characters");
+
+            if (password.Length <= 6)
+                return (false, "Password must be longer than 6 characters");
+
+            if (name.Length >= 15)
+                return (false, "Name must be shorter than 15 characters");
+
+            if (password.Length >= 15)
+                return (false, "Password must be shorter than 15 characters");
+
+            if (!name.All(c => char.IsLetter(c) || char.IsNumber(c)))
+                return (false, "Name can only contain letters and numbers");
+
+            if (!password.All(c => char.IsLetter(c) || char.IsNumber(c)))
+                return (false, "Password can only contain letters and numbers");
+
+            return (true, "Validation successful");
         }
 
 

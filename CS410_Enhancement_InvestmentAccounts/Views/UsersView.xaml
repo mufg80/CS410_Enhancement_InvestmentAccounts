@@ -4,8 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CS410_Enhancement_InvestmentAccounts.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" xmlns:con="clr-namespace:CS410_Enhancement_InvestmentAccounts.Converter">
+
+    <UserControl.Resources>
+        <con:StringtoColorConverter x:Key="converter"/>
+    </UserControl.Resources>
 
     <!--Holding Enter key binding so that submit is easier.-->
     <UserControl.InputBindings>
@@ -44,7 +47,8 @@
                 <TextBox x:Name="passwordtextbox1" Width="200" Height="30" Margin="0,0,0,10" Style="{StaticResource txtbox}" Text="{Binding Model.Pass, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 <TextBlock Text="Password: " Style="{StaticResource txtblock}"/>
                 <TextBox x:Name="passwordtextbox2" Width="200" Height="30" Margin="0,0,0,10" Style="{StaticResource txtbox}" Text="{Binding Model.Pass2, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-               
+                <TextBlock Text="{Binding Model.ValidationMessage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" FontSize="10" Margin="0 0 0 5" Foreground="{Binding Model.ValidationMessage, Converter={StaticResource converter}}"/>
+
                 <!-- Buttons for various controls bound to ButtonCommand class in Viewmodel. -->
                 
                 <Button Content="Submit"  Style="{StaticResource buttn}" IsEnabled="{Binding Model.IsValid, Mode=OneWay}" Command="{Binding SubmitCommand}" Margin="0 0 0 10"/>

@@ -55,25 +55,21 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
 
         public bool ValidateLogin()
         {
-            if (string.IsNullOrEmpty(nametext) || string.IsNullOrEmpty(passtext))
-            {
-                return false;
-            }
-
+           
             var (_, users) = FileSaver.ReadFromDisk();
-
+            var (IsValid, Message) = FileSaver.ValidateStrings(NameText, PassText, PassText);
             // If first time running, create a new user and save to disk. Make user admin(can add more users).
-            if (users.Count == 0 && FileSaver.ValidateStrings(NameText, PassText, PassText))
+            if (users.Count == 0 && IsValid)
             {
                 UserModel model = new(NameText, FileSaver.HashString(passtext), true);
                 List<UserModel> models = [model];
                 FileSaver.WriteToDisk(models, []);
                 string message = $"First user created. You are now admin. Please add more users in the app. User: {NameText} Password: {PassText}";
-                MessageBox.Show(message);
+                MessageBox.Show(message, "First Login");
                 return true;
             }else if(users.Count == 0)
             {
-                MessageBox.Show("Please enter a valid username and password.");
+                MessageBox.Show(Message, "First Login");
                 return false;
             }
 
@@ -86,6 +82,7 @@ namespace CS410_Enhancement_InvestmentAccounts.Models
                     return true;
                 }
             }
+            MessageBox.Show("Invalid username or password.");
             return false;
         }
 
