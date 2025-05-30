@@ -1,4 +1,4 @@
-#CS 410 README
+# CS 410 README
 
 About the Project/Project Title
 CS410 Investment Accounts is a C# WPF application designed to manage investment accounts for a firm. It provides a secure login system, allows users to create and delete investment accounts, and enables administrators to manage user accounts. The application uses the MVVM pattern to separate concerns, with data persistence handled through file serialization.
