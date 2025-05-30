@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CS410_Enhancement_InvestmentAccounts")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+011c62969d096bcfc4e6f7c4951d8f43f93e401f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8569ec76469cdd6b9324dd7f0af38335ba91a355")]
 [assembly: System.Reflection.AssemblyProductAttribute("CS410_Enhancement_InvestmentAccounts")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CS410_Enhancement_InvestmentAccounts")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
