@@ -9,4 +9,6 @@
 *.o
 *.obj
 
-CS410_Enhancement_InvestmentAccounts/bin
+CS410_Enhancement_InvestmentAccounts/bin/
+
+CS410_Enhancement_InvestmentAccounts/obj/
